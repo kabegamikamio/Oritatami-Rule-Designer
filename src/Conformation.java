@@ -6,7 +6,7 @@ import java.util.List;
 class Conformation {
     // List of transcript
     // do not make it 'final'
-    private List<Integer> tsc;
+    private Transcript tsc;
 
     // List of points where beads are placed
     // do not make it 'final'
@@ -25,13 +25,14 @@ class Conformation {
     }
 
     public int readTsc() {
-        return this.tsc.get(this.idx++);
+        return this.tsc.read(this.idx++).intValue();
     }
 
     public List<Point> getPoints() {
         return this.points;
     }
 
+    // determine whether the given conformation is the same
     public boolean isSame(Conformation conformation) {
         List<Point> points2 = conformation.getPoints();
         if(this.points.size() != points2.size()) {
