@@ -10,7 +10,14 @@ public class Oritatami {
         this.isOblivious = isOblivious;
     }
 
-    // execute Oritatami simulation according to the designated dynamics
+    /**
+     * This method executes Oritatami simulation by either oblivious or inertial dynamics.
+     * Users can define the Oritatami by giving the delay, transcript, set of bonding rules, initial conformation and dynamics.
+     * @param transcript
+     * @param bondingRule
+     * @param initialConformation
+     * @return final conformation as the output of the Oritatami
+     */
     public Conformation executeOritatami(Transcript transcript, BondingRule bondingRule,
                                          Conformation initialConformation) {
         if(this.isOblivious) {
@@ -49,7 +56,10 @@ public class Oritatami {
     }
 
     // find locally energy-minimum conformation with oblivious dynamics
-    private Conformation
+    private Conformation findEnergyMinimumConformation(Conformation currentConformation, Bead[] beads) {
+        Conformation conformation = new Conformation();
+        return conformation;
+    }
 
     // execute Oritatami simulation in the inertial dynamics
     // not available atm
