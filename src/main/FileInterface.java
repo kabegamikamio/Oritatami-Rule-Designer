@@ -4,8 +4,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
-public
-class FileInterface {
+public class FileInterface {
     public static void main(String[] args) {
         // attempt to open the conformation file
         String file_name = "test.txt";
