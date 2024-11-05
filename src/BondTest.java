@@ -1,4 +1,4 @@
-class BondTest {
+public class BondTest {
     public static void main(String[] args) {
         Bond b1 = new Bond(1, 2);
         Bond b2 = new Bond(3, 4);
