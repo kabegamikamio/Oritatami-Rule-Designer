@@ -1,3 +1,7 @@
+package ruledesigner.test;
+
+import ruledesigner.main.Bond;
+
 public class BondTest {
     public static void main(String[] args) {
         Bond b1 = new Bond(1, 2);

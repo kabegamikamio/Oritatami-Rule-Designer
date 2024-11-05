@@ -1,3 +1,5 @@
+package ruledesigner.main;
+
 // class of bond
 // defines a bond with two beads as integers
 public class Bond {

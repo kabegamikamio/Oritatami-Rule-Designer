@@ -1,3 +1,5 @@
+package ruledesigner.main;
+
 // class to find the rule to obtain the target conformation by varying the rule
 public class RuleDesign {
     private Bead[] beads;           // all beads used in the considered system

@@ -1,3 +1,5 @@
+package ruledesigner.main;
+
 // definition of a point on the triangular grid
 public class Point {
     private int x, y;

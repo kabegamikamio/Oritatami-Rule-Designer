@@ -1,3 +1,5 @@
+package ruledesigner.main;
+
 public class Bead {
     private String beadName;
 

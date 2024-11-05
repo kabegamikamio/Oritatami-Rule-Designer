@@ -1,3 +1,4 @@
+package ruledesigner.main;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,9 @@ public class Oritatami {
     /**
      * This method executes Oritatami simulation by either oblivious or inertial dynamics.
      * Users can define the Oritatami by giving the delay, transcript, set of bonding rules, initial conformation and dynamics.
-     * @param transcript
-     * @param bondingRule
-     * @param initialConformation
+     * @param transcript            pre-determined transcript
+     * @param bondingRule           pre-determined bonding rules
+     * @param initialConformation   pre-determined initial conformation
      * @return final conformation as the output of the Oritatami
      */
     public Conformation executeOritatami(Transcript transcript, BondingRule bondingRule,
@@ -49,15 +50,26 @@ public class Oritatami {
                 for(int j = 0; j < delay; j++) {
                     nascentBeads[j] = transcript.read(true);
                 }
+            } else { // second time and after, read one bead from the transcript
+                for(int j = 0; j < delay-1; j++) {
+                    nascentBeads[j] = nascentBeads[j+1];
+                }
+                nascentBeads[delay-1] = transcript.read(true);
             }
 
-            for(int j = 0; )
+            conformation = this.findEnergyMinimumConformation(conformation, nascentBeads);
         }
+
+        return conformation;
     }
 
     // find locally energy-minimum conformation with oblivious dynamics
+    // temporally hard-coded for delay of 3
     private Conformation findEnergyMinimumConformation(Conformation currentConformation, Bead[] beads) {
         Conformation conformation = new Conformation();
+
+        // process of finding energy-minimum conformation
+
         return conformation;
     }
 
@@ -66,6 +78,9 @@ public class Oritatami {
     private Conformation executeOritatamiInertial(Transcript transcript, BondingRule bondingRule,
                                                   Conformation initialConformation) {
         Conformation conformation = new Conformation();
+
+        // inertial dynamics process
+
         return conformation;
     }
 }
