@@ -60,7 +60,7 @@ public class Transcript {
     }
 
     // add the given bead to the end of the transcript
-    public boolean write(int bead) {
+    public boolean write(Bead bead) {
         return write(bead, this.idx);
     }
 

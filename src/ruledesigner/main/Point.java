@@ -64,4 +64,18 @@ public class Point {
         }
         return false;
     }
+
+    /**
+     * This method returns the adjacent point of instance's point.
+     * It determines the direction of extension by refering the static array of points of adjacentCord
+     * with the parameter of index;
+     * @param index The index to refer the adjacent coordination.
+     * @return  An adjacent point.
+     */
+    public Point getAdjacentOf(int index) {
+        int adjX = this.x + adjacentCord[index].getX();
+        int adjY = this.y + adjacentCord[index].getY();
+
+        return new Point(adjX, adjY);
+    }
 }

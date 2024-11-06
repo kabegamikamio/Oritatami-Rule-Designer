@@ -11,34 +11,105 @@ public class Conformation {
     private Transcript transcript;
 
     // List of points where beads are placed
-    // do not make it 'final'
     private List<Point> points;
 
     // index which indicates the recently referred
     private int idx;
 
+    // 2D array of points for verifying if any bead is on the point
+    private Point[][] grid;
+
     // constructor of Conformation class
     // generate the instances of the list of the transcript and points
     // also, initialize the index with 0
-    Conformation() {
+    public Conformation() {
         this.transcript = new Transcript();
         this.points = new ArrayList<Point>();
         this.idx = 0;
     }
 
+    /**
+     * This method add new bead in the poisition defined in the parameters
+     * @param bead  The bead to place on the grid.
+     * @param point The point where the bead should be placed.
+     * @return  Does it succeed to place the bead on the grid? (true, if yes)
+     */
+    public boolean add(Bead bead, Point point) {
+        if(isPlacable(point)) {
+            this.transcript.write(bead);
+            this.points.add(point);
+            return true;
+        }
+        return false;
+    }
+
+    // Sub routine of add() which checks if the point is 'blank'.
+    private boolean isPlacable(Point point) {
+        int x = point.getX();
+        int y = point.getY();
+
+        if(grid[x][y] == null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method reads one bead from the transcript and return it.
+     * @return  one bead at the end of the transcript
+     */
     public int readTsc() {
         return this.transcript.read(this.idx++).intValue();
     }
 
-    public List<Point> getPoints() {
+    /**
+     * This method returns the point in the index value.
+     * @params index    the index of reference
+     * @return  points[index]
+     */
+    public Point getPoint(int index) {
+        if(index < 0) {
+            index = this.transcript.length-1;
+        }
+        return this.points.get(index);
+    }
+
+    /**
+     * This method returs the bead in the index value.
+     * @params index    the index of reference
+     * @return  The bead at [index].
+     */
+    public Bead getBead(int index) {
+        if(index < 0) {
+            index = this.transcript.length-1;
+        }
+        return this.transcript.read(index);
+    }
+
+    /**
+     * This method returns its set of points.
+     * @return  set of points which the instance posesses
+     */
+    public List<Point> getAllPoints() {
         return this.points;
     }
 
+    /**
+     * This method returns its transcript.
+     * @return  the transcript of the instance
+     */
     public Transcript getTranscript() {
         return this.transcript;
     }
 
     // determine whether the given conformation is the same
+
+    /**
+     * This method determines whether the given conformation is the same to its conformation
+     * by comparing every single pair of beads in them.
+     * @param conformation  The conformation to compare
+     * @return  Are two conformations the same? (true, when yes)
+     */
     public boolean isSame(Conformation conformation) {
         List<Point> points2 = conformation.getPoints();
         Transcript transcript2 = conformation.getTranscript();
@@ -63,5 +134,13 @@ public class Conformation {
         }
 
         return true;    // if each pair of the points is the
+    }
+
+    /**
+     * This method verifies that the conformation is a self-avoiding path.
+     * @return  Is the conformation a self-avoiding path? (true, if yes)
+     */
+    public boolean isValid() {
+
     }
 }

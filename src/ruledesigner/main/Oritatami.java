@@ -5,6 +5,7 @@ import java.util.List;
 public class Oritatami {
     final private int delay;
     final private boolean isOblivious;
+    private Point[][] grid;
 
     Oritatami(int delay, boolean isOblivious) {
         this.delay = delay;
@@ -21,6 +22,9 @@ public class Oritatami {
      */
     public Conformation executeOritatami(Transcript transcript, BondingRule bondingRule,
                                          Conformation initialConformation) {
+        int length = transcript.getLength();
+        this.grid = new Point[length * 2][length * 2];
+
         if(this.isOblivious) {
             return executeOritatamiOblivious(transcript, bondingRule, initialConformation);
         } else {
@@ -65,13 +69,32 @@ public class Oritatami {
 
     // find locally energy-minimum conformation with oblivious dynamics
     // temporally hard-coded for delay of 3
+    // Energy minimumising is done by maximising the number of bonds
     private Conformation findEnergyMinimumConformation(Conformation currentConformation, Bead[] beads) {
         Conformation conformation = new Conformation();
+        int minimumEnergy = 0;
+        Point[] newPoints = new Point[3];
+
+        // obtain the coordination of the point at the end of the current conformation
+        Point terminalPoint = currentConformation.getPoint(-1);
 
         // process of finding energy-minimum conformation
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                for (int k = 0; k < 6; k++) {
+                    newPoints[0] = terminalPoint.getAdjacentOf(i);
+                    newPoints[1] = newPoints[0].getAdjacentOf(j);
+                    newPoints[2] = newPoints[1].getAdjacecntOf(k);
+                }
+            }
+        }
 
         return conformation;
     }
+
+    // evaluate the number of bonds
+    // in developing this method, be sure to refer the formalization of the oblivious dynamics...
+    private int countBonds() {}
 
     // execute Oritatami simulation in the inertial dynamics
     // not available atm
