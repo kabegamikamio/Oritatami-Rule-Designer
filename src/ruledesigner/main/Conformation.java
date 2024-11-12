@@ -143,4 +143,8 @@ public class Conformation {
     public boolean isValid() {
 
     }
+
+    public int getLength() {
+        return this.points.size();
+    }
 }

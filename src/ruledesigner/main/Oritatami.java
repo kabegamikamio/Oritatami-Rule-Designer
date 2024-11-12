@@ -5,36 +5,35 @@ import java.util.List;
 public class Oritatami {
     final private int delay;
     final private boolean isOblivious;
-    private Point[][] grid;
+    final private BondingRule bondingRule;
+    private Bead[][] grid;
 
-    Oritatami(int delay, boolean isOblivious) {
+    Oritatami(int delay, boolean isOblivious, BondingRule bondingRule) {
         this.delay = delay;
         this.isOblivious = isOblivious;
+        this.bondingRule = bondingRule;
     }
 
     /**
      * This method executes Oritatami simulation by either oblivious or inertial dynamics.
      * Users can define the Oritatami by giving the delay, transcript, set of bonding rules, initial conformation and dynamics.
      * @param transcript            pre-determined transcript
-     * @param bondingRule           pre-determined bonding rules
      * @param initialConformation   pre-determined initial conformation
      * @return final conformation as the output of the Oritatami
      */
-    public Conformation executeOritatami(Transcript transcript, BondingRule bondingRule,
-                                         Conformation initialConformation) {
+    public Conformation executeOritatami(Transcript transcript, Conformation initialConformation) {
         int length = transcript.getLength();
-        this.grid = new Point[length * 2][length * 2];
+        this.grid = new Bead[length * 2][length * 2];
 
         if(this.isOblivious) {
-            return executeOritatamiOblivious(transcript, bondingRule, initialConformation);
+            return executeOritatamiOblivious(transcript, initialConformation);
         } else {
-            return executeOritatamiInertial(transcript, bondingRule, initialConformation);
+            return executeOritatamiInertial(transcript, initialConformation);
         }
     }
 
     // execute Oritatami simulation in the oblivious dynamics
-    private Conformation executeOritatamiOblivious(Transcript transcript, BondingRule bondingRule,
-                                                   Conformation initialConformation) {
+    private Conformation executeOritatamiOblivious(Transcript transcript, Conformation initialConformation) {
         // produced conformation
         Conformation conformation = new Conformation();
 
@@ -69,7 +68,7 @@ public class Oritatami {
 
     // find locally energy-minimum conformation with oblivious dynamics
     // temporally hard-coded for delay of 3
-    // Energy minimumising is done by maximising the number of bonds
+    // Energy minimizing is done by maximising the number of bonds
     private Conformation findEnergyMinimumConformation(Conformation currentConformation, Bead[] beads) {
         Conformation conformation = new Conformation();
         int minimumEnergy = 0;
@@ -84,7 +83,7 @@ public class Oritatami {
                 for (int k = 0; k < 6; k++) {
                     newPoints[0] = terminalPoint.getAdjacentOf(i);
                     newPoints[1] = newPoints[0].getAdjacentOf(j);
-                    newPoints[2] = newPoints[1].getAdjacecntOf(k);
+                    newPoints[2] = newPoints[1].getAdjacentOf(k);
                 }
             }
         }
@@ -92,14 +91,49 @@ public class Oritatami {
         return conformation;
     }
 
-    // evaluate the number of bonds
-    // in developing this method, be sure to refer the formalization of the oblivious dynamics...
-    private int countBonds() {}
+    // counts the number of bonds formed among beads.
+    private int countBonds(Conformation conformation) {
+        int count = 0;
+        int length = conformation.getLength();
+        Bead bead;
+        Point adjacentPoint;
+
+        // temporary bond
+        Bond tempBond;
+
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < 5; j++) {
+                bead = conformation.getBead(i);
+                adjacentPoint = conformation.getPoint(i).getAdjacentOf(j);
+                if (this.grid[adjacentPoint.getX()][adjacentPoint.getY()] != null) {
+                    tempBond = new Bond(bead, this.grid[adjacentPoint.getX()][adjacentPoint.getY()]);
+                    if (this.bondingRule.ifContains(tempBond)) {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    // place given beads on the grid.
+    // Grid array is used to boost counting bonds
+    private void placeBeadsOnGrid (Conformation conformation) {
+        int length = conformation.getLength();
+        Point point;
+        Bead bead;
+
+        for (int i = 0; i < length; i++) {
+            point = conformation.getPoint(i);
+            bead = conformation.getBead(i);
+            this.grid[point.getX()][point.getY()] = bead;
+        }
+    }
 
     // execute Oritatami simulation in the inertial dynamics
     // not available atm
-    private Conformation executeOritatamiInertial(Transcript transcript, BondingRule bondingRule,
-                                                  Conformation initialConformation) {
+    private Conformation executeOritatamiInertial(Transcript transcript, Conformation initialConformation) {
         Conformation conformation = new Conformation();
 
         // inertial dynamics process
