@@ -102,6 +102,14 @@ public class Conformation {
         return this.transcript;
     }
 
+    /**
+     * This method returns the length of the conformation.
+     * @return  the length of the conformation.
+     */
+    public int getLength() {
+        return this.points.size();
+    }
+
     // determine whether the given conformation is the same
 
     /**
