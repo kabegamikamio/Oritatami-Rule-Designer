@@ -1,11 +1,11 @@
 package ruledesigner.test;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ruledesigner.main.Bead;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // Unit testing class of Bead class
 public class BeadTest {
@@ -17,7 +17,7 @@ public class BeadTest {
     public void getBeadNameTest() {
         String beadName = "beadName";
         Bead bead = new Bead(beadName);
-        assertThat(beadName, is(bead.getBeadName()));
+        assertEquals(beadName, bead.getBeadName());
     }
 
     /**
@@ -30,7 +30,7 @@ public class BeadTest {
     public void isSameTest_same_value() {
         Bead bead1 = new Bead("bead1");
         Bead bead2 = new Bead("bead1");
-        assertThat(bead1.isSame(bead2), is(true));
+        assertTrue(bead1.isSame(bead2));
     }
 
     /**
@@ -43,7 +43,7 @@ public class BeadTest {
     public void isSameTest_different_value() {
         Bead bead1 = new Bead("bead1");
         Bead bead2 = new Bead("bead2");
-        assertThat(bead1.isSame(bead2), is(false));
+        assertFalse(bead1.isSame(bead2));
     }
 
     /**
@@ -84,6 +84,6 @@ public class BeadTest {
     public void compareToTest_same_beads() {
         Bead bead1 = new Bead("bead1");
         Bead bead2 = new Bead("bead1");
-        assertTrue(bead1.compareTo(bead2) == 0);
+        assertEquals(0, bead1.compareTo(bead2));
     }
 }
