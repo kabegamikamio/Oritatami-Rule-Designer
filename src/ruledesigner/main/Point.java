@@ -3,7 +3,7 @@ package ruledesigner.main;
 // definition of a point on the triangular grid
 public class Point {
     private int x, y;
-    final private static Point[] adjacentCord = {new Point(0, 1), new Point(1, 0), new Point(1, -1),
+    final public static Point[] adjacentCord = {new Point(0, 1), new Point(1, 0), new Point(1, -1),
             new Point(0, -1), new Point(-1, 0), new Point(-1, 1)};
 
     // constructor of Point object
@@ -40,10 +40,7 @@ public class Point {
 
     // determine if the given coordinate is the same
     public boolean isSame(Point p) {
-        if(this.x == p.getX() && this.y == p.getY()) {
-            return true;
-        }
-        return false;
+        return this.x == p.getX() && this.y == p.getY();
     }
 
     // determine if the given coordinate is adjacent
