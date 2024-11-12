@@ -6,7 +6,6 @@ public class Oritatami {
     final private int delay;
     final private boolean isOblivious;
     final private BondingRule bondingRule;
-    private Bead[][] grid;
 
     Oritatami(int delay, boolean isOblivious, BondingRule bondingRule) {
         this.delay = delay;
@@ -16,24 +15,26 @@ public class Oritatami {
 
     /**
      * This method executes Oritatami simulation by either oblivious or inertial dynamics.
-     * Users can define the Oritatami by giving the delay, transcript, set of bonding rules, initial conformation and dynamics.
+     * Users can define the Oritatami by giving the delay, transcript,
+     * set of bonding rules, seed conformation and dynamics.
      * @param transcript            pre-determined transcript
-     * @param initialConformation   pre-determined initial conformation
+     * @param seedConformation   pre-determined seed conformation
      * @return final conformation as the output of the Oritatami
      */
-    public Conformation executeOritatami(Transcript transcript, Conformation initialConformation) {
+    public Conformation executeOritatami(Transcript transcript, Conformation seedConformation) {
         int length = transcript.getLength();
-        this.grid = new Bead[length * 2][length * 2];
+        Bead[][] grid = new Bead[length * 2][length * 2];
 
         if(this.isOblivious) {
-            return executeOritatamiOblivious(transcript, initialConformation);
+            return executeOritatamiOblivious(transcript, seedConformation, grid);
         } else {
-            return executeOritatamiInertial(transcript, initialConformation);
+            return executeOritatamiInertial(transcript, seedConformation, grid);
         }
     }
 
     // execute Oritatami simulation in the oblivious dynamics
-    private Conformation executeOritatamiOblivious(Transcript transcript, Conformation initialConformation) {
+    private Conformation executeOritatamiOblivious(Transcript transcript, Conformation seedConformation,
+                                                   Bead[][] grid) {
         // produced conformation
         Conformation conformation = new Conformation();
 
@@ -49,7 +50,7 @@ public class Oritatami {
         for(int i = 0; i < maxIdx - delay; i++) {
             // transcribe {delay} beads for the first time
             if(i == 0) {
-                // initialize the array of the nascent transcribed beads
+                // seedize the array of the nascent transcribed beads
                 for(int j = 0; j < delay; j++) {
                     nascentBeads[j] = transcript.read(true);
                 }
@@ -84,6 +85,10 @@ public class Oritatami {
                     newPoints[0] = terminalPoint.getAdjacentOf(i);
                     newPoints[1] = newPoints[0].getAdjacentOf(j);
                     newPoints[2] = newPoints[1].getAdjacentOf(k);
+                    /* Verify the validation of the partial conformation */
+                    /* If valid, then count the bonds */
+                        /* If the number of bonds is larger than minimumEnergy, */
+                        /* then mark the partial conformation as energy-minimum */
                 }
             }
         }
@@ -133,7 +138,8 @@ public class Oritatami {
 
     // execute Oritatami simulation in the inertial dynamics
     // not available atm
-    private Conformation executeOritatamiInertial(Transcript transcript, Conformation initialConformation) {
+    private Conformation executeOritatamiInertial(Transcript transcript, Conformation seedConformation,
+                                                  Bead[][] grid) {
         Conformation conformation = new Conformation();
 
         // inertial dynamics process
