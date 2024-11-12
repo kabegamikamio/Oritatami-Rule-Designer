@@ -69,7 +69,7 @@ public class RuleDesign {
      */
     public BondingRule doRuleDesign(Conformation initialConformation, Transcript transcript,
                                      Conformation targetConformation) {
-        BondingRule bondingRule;
+        BondingRule bondingRule = new BondingRule();
         Conformation conformation;
         Bead bead1, bead2;
         Bond bond;
@@ -79,16 +79,19 @@ public class RuleDesign {
         // bloody O{n^2 2^(n^2)} logic
         for(int i = 0; i < Math.pow(2, tableSize); i++) {
             bondingRule = new BondingRule();
-            Oritatami os = new Oritatami(3, true);
+            Oritatami os;
 
             do {
                 bondingRule = constructBondingRule();
-                conformation = os.executeOritatami(transcript, bondingRule, initialConformation);
+                os = new Oritatami(3,true, bondingRule);
+                conformation = os.executeOritatami(transcript, initialConformation);
                 if(conformation.isSame(targetConformation)) {
                     return bondingRule;
                 }
             } while(!this.shiftRule());
         }
+
+        return bondingRule;
     }
 
     // Called by the method doRuleDesign(), this method varies the bonding rules one by one

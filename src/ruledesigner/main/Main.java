@@ -1,8 +1,9 @@
 package ruledesigner.main;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        Scan scan = new Scan(System.in);
-
+        Scanner scan = new Scanner(System.in);
     }
 }

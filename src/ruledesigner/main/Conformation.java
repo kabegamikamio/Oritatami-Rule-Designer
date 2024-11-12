@@ -58,8 +58,8 @@ public class Conformation {
      * This method reads one bead from the transcript and return it.
      * @return  one bead at the end of the transcript
      */
-    public int readTsc() {
-        return this.transcript.read(this.idx++).intValue();
+    public Bead readTsc() {
+        return this.transcript.read(this.idx++);
     }
 
     /**
@@ -69,7 +69,7 @@ public class Conformation {
      */
     public Point getPoint(int index) {
         if(index < 0) {
-            index = this.transcript.length-1;
+            index = this.transcript.getLength() - 1;
         }
         return this.points.get(index);
     }
@@ -81,7 +81,7 @@ public class Conformation {
      */
     public Bead getBead(int index) {
         if(index < 0) {
-            index = this.transcript.length-1;
+            index = this.transcript.getLength() - 1;
         }
         return this.transcript.read(index);
     }
@@ -119,7 +119,7 @@ public class Conformation {
      * @return  Are two conformations the same? (true, when yes)
      */
     public boolean isSame(Conformation conformation) {
-        List<Point> points2 = conformation.getPoints();
+        List<Point> points2 = conformation.getAllPoints();
         Transcript transcript2 = conformation.getTranscript();
 
         // if the lengths of two are different, two conformations are different
@@ -149,10 +149,6 @@ public class Conformation {
      * @return  Is the conformation a self-avoiding path? (true, if yes)
      */
     public boolean isValid() {
-
-    }
-
-    public int getLength() {
-        return this.points.size();
+        return true;
     }
 }

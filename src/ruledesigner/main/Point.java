@@ -7,7 +7,7 @@ public class Point {
             new Point(0, -1), new Point(-1, 0), new Point(-1, 1)};
 
     // constructor of Point object
-    Point(int x, int y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
