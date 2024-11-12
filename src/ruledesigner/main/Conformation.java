@@ -17,7 +17,9 @@ public class Conformation {
     private int idx;
 
     // 2D array of points for verifying if any bead is on the point
-    private Point[][] grid;
+    private Bead[][] grid;
+
+    private int[][] indexTable;
 
     // constructor of Conformation class
     // generate the instances of the list of the transcript and points
