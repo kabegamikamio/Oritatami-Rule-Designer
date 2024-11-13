@@ -1,11 +1,13 @@
+package ruledesigner.main;
+
 // definition of a point on the triangular grid
 public class Point {
     private int x, y;
-    final private static Point[] adjacentCord = {new Point(0, 1), new Point(1, 0), new Point(1, -1),
+    final public static Point[] adjacentCord = {new Point(0, 1), new Point(1, 0), new Point(1, -1),
             new Point(0, -1), new Point(-1, 0), new Point(-1, 1)};
 
     // constructor of Point object
-    Point(int x, int y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -38,10 +40,7 @@ public class Point {
 
     // determine if the given coordinate is the same
     public boolean isSame(Point p) {
-        if(this.x == p.getX() && this.y == p.getY()) {
-            return true;
-        }
-        return false;
+        return this.x == p.getX() && this.y == p.getY();
     }
 
     // determine if the given coordinate is adjacent
@@ -61,5 +60,19 @@ public class Point {
             }
         }
         return false;
+    }
+
+    /**
+     * This method returns the adjacent point of instance's point.
+     * It determines the direction of extension by refering the static array of points of adjacentCord
+     * with the parameter of index;
+     * @param index The index to refer the adjacent coordination.
+     * @return  An adjacent point.
+     */
+    public Point getAdjacentOf(int index) {
+        int adjX = this.x + adjacentCord[index].getX();
+        int adjY = this.y + adjacentCord[index].getY();
+
+        return new Point(adjX, adjY);
     }
 }
