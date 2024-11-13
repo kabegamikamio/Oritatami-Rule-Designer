@@ -10,22 +10,38 @@ public class Transcript {
     private boolean isWrite;
 
     // constructor with writable mode
-    Transcript(boolean isWrite) {
+    public Transcript(boolean isWrite) {
         this.constructTranscript(isWrite);
     }
 
     // constructor with writable mode (set to read-only)
-    Transcript() {
+    public Transcript() {
         this.constructTranscript(false);
+    }
+
+    // constructor with String array which defines the transcript
+    public Transcript(String[] tsc, boolean isWrite) {
+        // construct the list of the transcript
+        this.transcriptList = new ArrayList<>();
+        for (String s : tsc) {
+            Bead bead = new Bead(s);
+            this.transcriptList.add(bead);
+        }
+
+        // initialize the attributes of this instance
+        this.idx = 0;
+        this.isWrite = isWrite;
     }
 
     // read one bead from the transcript
     // if forward=true, move the idx forward
     public Bead read(boolean forward) {
-        Bead bead = this.transcriptList.get(this.idx);
+        Bead bead = this.read(this.idx);
+
         if(forward) {
             this.idx++;
         }
+
         return bead;
     }
 
@@ -52,16 +68,24 @@ public class Transcript {
         int maxIndex = this.transcriptList.size();
         if(0 <= index && index < maxIndex) {
             this.transcriptList.set(index, bead);
-        } else if(index == maxIndex + 1) {
+        } else if(index == maxIndex) {
             this.transcriptList.add(bead);
             this.idx++;
+        } else {
+            return false;
         }
         return true;
     }
 
     // add the given bead to the end of the transcript
     public boolean write(Bead bead) {
-        return write(bead, this.idx);
+        int indexLast = this.transcriptList.size();
+        return write(bead, indexLast);
+    }
+
+    // get the index of the instance
+    public int getIndex() {
+        return this.idx;
     }
 
     // set the index with the given value
@@ -81,8 +105,22 @@ public class Transcript {
 
     // determine whether the given transcript is the same
     public boolean isSame(Transcript transcript) {
-        List<Bead> transcriptList = transcript.getList();
-        return this.transcriptList.equals(transcriptList);
+        int length = transcriptList.size();
+        List<Bead> transcriptList2 = transcript.getList();
+
+        if (length != transcriptList2.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < length; i++) {
+            Bead bead1 = transcriptList.get(i);
+            Bead bead2 = transcriptList2.get(i);
+            if (!bead1.isSame(bead2)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // return the length of the transcript
@@ -92,7 +130,7 @@ public class Transcript {
 
     // construct new transcript
     private void constructTranscript(boolean isWrite) {
-        this.transcriptList = new ArrayList<Bead>();
+        this.transcriptList = new ArrayList<>();
         this.idx = 0;
         this.isWrite = isWrite;
     }
