@@ -1,8 +1,6 @@
-package ruledesigner.test;
+package ruledesigner;
 
 import org.junit.jupiter.api.Test;
-import ruledesigner.main.Bead;
-import ruledesigner.main.Bond;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -1,4 +1,4 @@
-package ruledesigner.test;
+package ruledesigner;
 
 public class OritatamiTest {
 }

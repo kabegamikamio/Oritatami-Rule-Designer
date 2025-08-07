@@ -1,4 +1,6 @@
-package ruledesigner.main;
+package ruledesigner;
+
+import java.util.List;
 
 // definition of a point on the triangular grid
 public class Point {
@@ -6,6 +8,11 @@ public class Point {
     final public static Point[] adjacentCord = {new Point(0, 1), new Point(1, 0), new Point(1, -1),
             new Point(0, -1), new Point(-1, 0), new Point(-1, 1)};
     final public static String[] adjacentDirection = {"NE", "E", "SE", "SW", "W", "NW"};
+
+    public Point() {
+        this.x = 0;
+        this.y = 0;
+    }
 
     // constructor of Point object
     public Point(int x, int y) {
@@ -99,5 +106,15 @@ public class Point {
             }
         }
         return -1; // not found
+    }
+
+    // return the string representation of the point
+    public List<Point> getAdjacentPoints() {
+        List<Point> adjacentPoints = new java.util.ArrayList<>();
+        for (Point p : adjacentCord) {
+            Point adjPoint = new Point(this.x + p.getX(), this.y + p.getY());
+            adjacentPoints.add(adjPoint);
+        }
+        return adjacentPoints;
     }
 }

@@ -1,4 +1,4 @@
-package ruledesigner.main;
+package ruledesigner;
 
 // class of bond
 // defines a bond with two beads as integers

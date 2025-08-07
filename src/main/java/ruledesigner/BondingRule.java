@@ -1,4 +1,4 @@
-package ruledesigner.main;
+package ruledesigner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class BondingRule {
     private List<Bond> rule;
 
     BondingRule() {
-        this.rule = new ArrayList<Bond>();
+        this.rule = new ArrayList<>();
     }
 
     // add new bonding rule to the current rule
@@ -27,8 +27,7 @@ public class BondingRule {
     // delete the designated bond from the rule
     public boolean delete(Bond bond) {
         if(this.rule.contains(bond)) {
-            int i = this.rule.indexOf(bond);
-            this.rule.remove(i);
+            this.rule.remove(bond);
             return true;
         } else {
             return false;

@@ -1,7 +1,6 @@
-package ruledesigner.test;
+package ruledesigner;
 
 import org.junit.jupiter.api.Test;
-import ruledesigner.main.Bead;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

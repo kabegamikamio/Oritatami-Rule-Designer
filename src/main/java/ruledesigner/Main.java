@@ -1,4 +1,4 @@
-package ruledesigner.main;
+package ruledesigner;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package ruledesigner.main;
+package ruledesigner;
 
 import java.io.File;
 import java.io.FileNotFoundException;

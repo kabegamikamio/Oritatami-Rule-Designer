@@ -1,4 +1,4 @@
-package ruledesigner.main;
+package ruledesigner;
 
 // class to find the rule to obtain the target conformation by varying the rule
 public class RuleDesign {
@@ -14,7 +14,7 @@ public class RuleDesign {
 
     /**
      * set beads used in rule designing
-     * @params length   the number of beads used in the target Oritatami system
+     * @param length   the number of beads used in the target Oritatami system
      */
     private void initializeBeads(int length) {
         beads = new Bead[length];
@@ -28,7 +28,7 @@ public class RuleDesign {
 
     /**
      *  initialize ruleBinary with false's
-     * @params length   the number of beads used in the target Oritatami system
+     * @param length   the number of beads used in the target Oritatami system
      */
     private void initializeRuleBinary(int length) {
         int tableSize = length * (length + 1) / 2;
@@ -41,7 +41,7 @@ public class RuleDesign {
 
     /**
      * construct the index table
-     * @param length
+     * @param length the number of beads used in the target Oritatami system
      */
     private void initializeIndexTable(int length) {
         Bead bead1, bead2;

@@ -1,4 +1,4 @@
-package ruledesigner.main;
+package ruledesigner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,16 @@ public class Transcript {
         // initialize the attributes of this instance
         this.idx = 0;
         this.isWrite = isWrite;
+    }
+
+    // constructor with Transcript instance
+    public Transcript(Transcript transcript) {
+        // copy the transcript list
+        this.transcriptList = new ArrayList<>(transcript.getList());
+        // copy the index
+        this.idx = transcript.getIndex();
+        // copy the write mode
+        this.isWrite = transcript.isWrite;
     }
 
     // read one bead from the transcript

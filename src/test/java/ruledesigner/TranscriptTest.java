@@ -1,11 +1,9 @@
-package ruledesigner.test;
+package ruledesigner;// package ruledesigner.test.java;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import ruledesigner.main.Bead;
-import ruledesigner.main.Transcript;
 
 import java.util.List;
 

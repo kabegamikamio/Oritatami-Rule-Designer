@@ -1,4 +1,4 @@
-package ruledesigner.main;
+package ruledesigner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +16,14 @@ public class Conformation {
     // index which indicates the recently referred
     private int idx;
 
-    private int[][] indexTable;
+//    private int[][] indexTable;
 
     // constructor of Conformation class
     // generate the instances of the list of the transcript and points
     // also, initialize the index with 0
     public Conformation() {
         this.transcript = new Transcript();
-        this.points = new ArrayList<Point>();
+        this.points = new ArrayList<>();
         this.idx = 0;
     }
 
@@ -34,8 +34,19 @@ public class Conformation {
         this.idx = 0;
     }
 
+    // constructor of Conformation class with the given conformation
+    public Conformation(Conformation conformation) {
+        this.transcript = new Transcript(conformation.getTranscript());
+        this.points = new ArrayList<>(conformation.getAllPoints());
+        this.idx = conformation.idx;
+//        this.indexTable = new int[conformation.indexTable.length][];
+//        for (int i = 0; i < conformation.indexTable.length; i++) {
+//            this.indexTable[i] = conformation.indexTable[i].clone();
+//        }
+    }
+
     /**
-     * This method add new bead in the poisition defined in the parameters
+     * This method add new bead in the position defined in the parameters
      * @param bead  The bead to place on the grid.
      * @param point The point where the bead should be placed.
      * @return  Does it succeed to place the bead on the grid? (true, if yes)
@@ -69,7 +80,7 @@ public class Conformation {
      */
     public Point getPoint(int index) {
         if(index < 0) {
-            return this.points.get(this.points.size() - 1);
+            return this.points.getLast();
         }
         return this.points.get(index);
     }
@@ -88,7 +99,7 @@ public class Conformation {
 
     /**
      * This method returns its set of points.
-     * @return a set of points which the instance posesses
+     * @return points which the instance possesses
      */
     public List<Point> getAllPoints() {
         return this.points;
@@ -149,11 +160,7 @@ public class Conformation {
         }
 
         // compare the two transcripts
-        if(!transcript2.isSame(this.transcript)) {
-            return false;
-        }
-
-        return true;    // if each pair of the points is the
+        return transcript2.isSame(this.transcript);// if each pair of the points is the
     }
 
     /**
@@ -162,5 +169,32 @@ public class Conformation {
      */
     public boolean isValid() {
         return true;
+    }
+
+    /**
+     * This method returns the index of the last referred point.
+     * @return  The index of the last referred point.
+     */
+    public boolean containsPoint(Point p) {
+        for (Point point : this.points) {
+            if (point.isSame(p)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method returns the index of the given point in the points list.
+     * @param adj The point to find in the list.
+     * @return  The index of the point if found, otherwise -1.
+     */
+    public int indexOfPoint(Point adj) {
+        for (int i = 0; i < this.points.size(); i++) {
+            if (this.points.get(i).isSame(adj)) {
+                return i;
+            }
+        }
+        return -1; // Not found
     }
 }

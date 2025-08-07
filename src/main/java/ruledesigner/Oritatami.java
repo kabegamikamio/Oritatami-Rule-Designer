@@ -1,5 +1,4 @@
-package ruledesigner.main;
-import java.util.ArrayList;
+package ruledesigner;
 import java.util.List;
 
 public class Oritatami {
@@ -25,8 +24,10 @@ public class Oritatami {
         int length = transcript.getLength();
 
         if(this.isOblivious) {
+            // execute Oritatami simulation in the oblivious dynamics
             return executeOritatamiOblivious(transcript, seedConformation);
         } else {
+            // execute Oritatami simulation in the inertial dynamics
             return executeOritatamiInertial(transcript, seedConformation);
         }
     }
@@ -34,7 +35,7 @@ public class Oritatami {
     // execute Oritatami simulation in the oblivious dynamics
     private Conformation executeOritatamiOblivious(Transcript transcript, Conformation seedConformation) {
 
-        // produced conformation
+        // result conformation
         Conformation conformation = new Conformation();
 
         // length of transcript
@@ -46,10 +47,29 @@ public class Oritatami {
         // array of the grid
         Bead[][] beadGrid = new Bead[transcriptLength * 2][transcriptLength * 2];
 
-        // set the seed conformation to the bead grid
-        placeBeadsOnGrid(beadGrid, seedConformation);
+        // the point of the last bead placed
+        Point lastPoint;
 
-        for (int i = 0; i < transcriptLength - delay; i++) {
+        // set the seed conformation to the bead grid
+        lastPoint = placeBeadsOnGrid(beadGrid, seedConformation);
+
+        for (int i = 0; i < transcriptLength; i++) {
+            // read the last bead from the transcript
+            Bead nascentBead = transcript.read(true);
+
+            // evaluate the candidate positions
+            List<Point> candidatePositions = lastPoint.getAdjacentPoints();
+
+            // best position for the nascent bead
+            Point bestPosition = null;
+
+            // maximum number of bonds for the nascent bead
+            int maxBonds = -1;
+
+            for(int j=0; j<6; j++) {
+                Point candidatePosition = lastPoint.getAdjacentOf(j);
+            }
+
             // transcribe {delay} beads for the first time
             if(i == 0) {
                 for(int j = 0; j < delay; j++) {
@@ -142,9 +162,10 @@ public class Oritatami {
 
     // place given beads on the grid.
     // Grid array is used to boost counting bonds
-    private void placeBeadsOnGrid (Bead[][] beadGrid, Conformation conformation) {
+    // and returns the point of the last bead placed.
+    private Point placeBeadsOnGrid (Bead[][] beadGrid, Conformation conformation) {
         int length = conformation.getLength();
-        Point point;
+        Point point = new Point();
         Bead bead;
 
         for (int i = 0; i < length; i++) {
@@ -152,6 +173,8 @@ public class Oritatami {
             bead = conformation.getBead(i);
             beadGrid[point.getX()][point.getY()] = bead;
         }
+
+        return point;
     }
 
     // execute Oritatami simulation in the inertial dynamics

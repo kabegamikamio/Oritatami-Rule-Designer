@@ -1,11 +1,6 @@
-package ruledesigner.test;
-
-import ruledesigner.main.Bead;
-import ruledesigner.main.Conformation;
-import ruledesigner.main.Point;
+package ruledesigner;
 
 import org.junit.jupiter.api.Test;
-import ruledesigner.main.Transcript;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
