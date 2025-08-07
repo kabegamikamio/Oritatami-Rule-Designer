@@ -16,9 +16,6 @@ public class Conformation {
     // index which indicates the recently referred
     private int idx;
 
-    // 2D array of points for verifying if any bead is on the point
-    private Bead[][] grid;
-
     private int[][] indexTable;
 
     // constructor of Conformation class
@@ -30,6 +27,13 @@ public class Conformation {
         this.idx = 0;
     }
 
+    // constructor of Conformation class with the given transcript and points
+    public Conformation(Transcript transcript, List<Point> points) {
+        this.transcript = transcript;
+        this.points = points;
+        this.idx = 0;
+    }
+
     /**
      * This method add new bead in the poisition defined in the parameters
      * @param bead  The bead to place on the grid.
@@ -37,7 +41,7 @@ public class Conformation {
      * @return  Does it succeed to place the bead on the grid? (true, if yes)
      */
     public boolean add(Bead bead, Point point) {
-        if(isPlacable(point)) {
+        if(isPlaceable(point)) {
             this.transcript.write(bead);
             this.points.add(point);
             return true;
@@ -46,18 +50,12 @@ public class Conformation {
     }
 
     // Sub routine of add() which checks if the point is 'blank'.
-    private boolean isPlacable(Point point) {
-        int x = point.getX();
-        int y = point.getY();
-
-        if(grid[x][y] == null) {
-            return true;
-        }
-        return false;
+    private boolean isPlaceable(Point point) {
+        return !this.points.contains(point);
     }
 
     /**
-     * This method reads one bead from the transcript and return it.
+     * This method reads one bead from the transcript and returns it.
      * @return  one bead at the end of the transcript
      */
     public Bead readTsc() {
@@ -66,19 +64,19 @@ public class Conformation {
 
     /**
      * This method returns the point in the index value.
-     * @params index    the index of reference
+     * @param index    the index of reference
      * @return  points[index]
      */
     public Point getPoint(int index) {
         if(index < 0) {
-            index = this.transcript.getLength() - 1;
+            return this.points.get(this.points.size() - 1);
         }
         return this.points.get(index);
     }
 
     /**
-     * This method returs the bead in the index value.
-     * @params index    the index of reference
+     * This method returns the bead in the index value.
+     * @param index    the index of reference
      * @return  The bead at [index].
      */
     public Bead getBead(int index) {
@@ -90,7 +88,7 @@ public class Conformation {
 
     /**
      * This method returns its set of points.
-     * @return  set of points which the instance posesses
+     * @return a set of points which the instance posesses
      */
     public List<Point> getAllPoints() {
         return this.points;
@@ -131,9 +129,21 @@ public class Conformation {
 
         // obtain points one by one, and compare
         for(int i=0; i<this.points.size(); i++) {
+            // obtain the points in the same index
             Point point1 = this.points.get(i);
             Point point2 = points2.get(i);
+
+            // if the points are not the same, two conformations are different
             if(!point1.isSame(point2)) {
+                return false;
+            }
+
+            // obtain the beads in the same index
+            Bead bead1 = this.transcript.read(i);
+            Bead bead2 = transcript2.read(i);
+
+            // if the beads are not the same, two conformations are different
+            if(!bead1.isSame(bead2)) {
                 return false;
             }
         }

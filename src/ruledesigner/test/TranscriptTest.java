@@ -52,6 +52,7 @@ public class TranscriptTest {
             0, bead1,
             1, bead2,
             2, bead3,
+            -1, bead3
             """)
     public void readTest_WithIndex(int index, String beadName) {
         Transcript transcript = constructTranscript(false);
@@ -145,18 +146,38 @@ public class TranscriptTest {
         Transcript transcript1 = constructTranscript(false);
         Transcript transcript2 = constructTranscript(false);
 
+        transcript1.write(new Bead("bead1"));
+        transcript2.write(new Bead("bead1"));
+        transcript1.write(new Bead("bead2"));
+        transcript2.write(new Bead("bead2"));
+        transcript1.write(new Bead("bead3"));
+        transcript2.write(new Bead("bead3"));
+
         assertTrue(transcript1.isSame(transcript2));
         assertTrue(transcript2.isSame(transcript1));
     }
 
     @Test
-    public void isSameTest_Different() {
+    public void isSameTest_Different_Null() {
         String[] beads = {"bead1", "bead2"};
         Transcript transcript1 = constructTranscript(false);
         Transcript transcript2 = new Transcript(beads, false);
 
         assertFalse(transcript1.isSame(transcript2));
         assertFalse(transcript2.isSame(transcript1));
+    }
+
+    @Test
+    public void isSameTest_Different_NonNull() {
+        Transcript transcript1 = constructTranscript(true);
+        Transcript transcript2 = constructTranscript(true);
+
+        transcript1.write(new Bead("bead1"));
+        transcript2.write(new Bead("bead2"));
+
+        assertEquals("bead1", transcript1.read(-1).getBeadName());
+        assertEquals("bead2", transcript2.read(-1).getBeadName());
+        assertFalse(transcript1.isSame(transcript2));
     }
 
     @Test

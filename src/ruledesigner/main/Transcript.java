@@ -16,7 +16,7 @@ public class Transcript {
 
     // constructor with writable mode (set to read-only)
     public Transcript() {
-        this.constructTranscript(false);
+        this.constructTranscript(true);
     }
 
     // constructor with String array which defines the transcript
@@ -54,7 +54,13 @@ public class Transcript {
     // use Integer instead of int, in order to detect null in the calling method
     public Bead read(int index) {
         int maxIndex = this.transcriptList.size();
-        if(index >= maxIndex || index < 0) {
+        if (maxIndex == 0) {
+            return null;
+        }
+        if (index < 0) {
+            return this.transcriptList.get(maxIndex - 1);
+        }
+        if (index >= maxIndex) {
             return null;
         }
         return this.transcriptList.get(index);
