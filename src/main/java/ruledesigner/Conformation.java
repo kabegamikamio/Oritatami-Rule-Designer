@@ -13,10 +13,11 @@ public class Conformation {
     // List of points where beads are placed
     private List<Point> points;
 
+    // the length of the transcript
+    int length;
+
     // index which indicates the recently referred
     private int idx;
-
-//    private int[][] indexTable;
 
     // constructor of Conformation class
     // generate the instances of the list of the transcript and points
@@ -25,6 +26,7 @@ public class Conformation {
         this.transcript = new Transcript();
         this.points = new ArrayList<>();
         this.idx = 0;
+        this.length = 0;
     }
 
     // constructor of Conformation class with the given transcript and points
@@ -32,6 +34,7 @@ public class Conformation {
         this.transcript = transcript;
         this.points = points;
         this.idx = 0;
+        this.length = transcript.getLength();
     }
 
     // constructor of Conformation class with the given conformation
@@ -39,6 +42,7 @@ public class Conformation {
         this.transcript = new Transcript(conformation.getTranscript());
         this.points = new ArrayList<>(conformation.getAllPoints());
         this.idx = conformation.idx;
+        this.length = conformation.length;
 //        this.indexTable = new int[conformation.indexTable.length][];
 //        for (int i = 0; i < conformation.indexTable.length; i++) {
 //            this.indexTable[i] = conformation.indexTable[i].clone();
@@ -55,6 +59,7 @@ public class Conformation {
         if(isPlaceable(point)) {
             this.transcript.write(bead);
             this.points.add(point);
+            this.length++;
             return true;
         }
         return false;

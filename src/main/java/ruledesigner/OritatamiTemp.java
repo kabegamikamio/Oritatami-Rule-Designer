@@ -5,13 +5,12 @@ import java.util.List;
 public class OritatamiTemp {
     private final Transcript transcript;
     private final Conformation seedConformation;
-    private final int arity;
+    // private final int arity;
     private final BondingRule bondingRule;
 
-    public OritatamiTemp(Transcript transcript, Conformation seedConformation, int arity, BondingRule bondingRule) {
+    public OritatamiTemp(Transcript transcript, Conformation seedConformation, BondingRule bondingRule) {
         this.transcript = transcript;
         this.seedConformation = seedConformation;
-        this.arity = arity;
         this.bondingRule = bondingRule;
     }
 
@@ -38,7 +37,7 @@ public class OritatamiTemp {
                 Conformation tempConformation = new Conformation(conformation);
                 tempConformation.add(currentBead, p);
 
-                int bonds = countBondsWithArity(tempConformation, bondingRule, arity);
+                int bonds = countBonds(tempConformation, bondingRule);
 
                 if (bonds > maxBonds) {
                     maxBonds = bonds;
@@ -46,7 +45,7 @@ public class OritatamiTemp {
                 }
             }
 
-            if (bestPosition != null) {
+            if (maxBonds > 0 && bestPosition != null) {
                 conformation.add(currentBead, bestPosition);
             } else {
                 break;
@@ -56,7 +55,7 @@ public class OritatamiTemp {
         return conformation;
     }
 
-    private int countBondsWithArity(Conformation conformation, BondingRule rule, int arity) {
+    private int countBonds(Conformation conformation, BondingRule rule) {
         int count = 0;
         int length = conformation.getLength();
 
@@ -71,7 +70,6 @@ public class OritatamiTemp {
                     Bond bond = new Bond(bead, conformation.getBead(idx));
                     if (rule.ifContains(bond)) {
                         beadBonds++;
-                        if (beadBonds >= arity) break;
                     }
                 }
             }
