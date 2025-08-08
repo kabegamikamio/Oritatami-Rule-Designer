@@ -77,7 +77,7 @@ public class Transcript {
     }
 
     // rewrite the given bead to the designated index on the transcript
-    public boolean write(Bead bead, int index) {
+    public boolean add(Bead bead, int index) {
         if(!isWrite) {
             return false;
         }
@@ -94,9 +94,9 @@ public class Transcript {
     }
 
     // add the given bead to the end of the transcript
-    public boolean write(Bead bead) {
+    public boolean add(Bead bead) {
         int indexLast = this.transcriptList.size();
-        return write(bead, indexLast);
+        return add(bead, indexLast);
     }
 
     // get the index of the instance

@@ -21,7 +21,12 @@ public class BondingRule {
 
     // determine if the given pair of beads is contained in the bonding rule
     public boolean ifContains(Bond bond) {
-        return this.rule.contains(bond);
+        for (Bond b : this.rule) {
+            if (b.isSame(bond)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // delete the designated bond from the rule
@@ -32,5 +37,10 @@ public class BondingRule {
         } else {
             return false;
         }
+    }
+
+    // delete all the bonds in the bonding rule
+    public List<Bond> getBondList() {
+        return this.rule;
     }
 }

@@ -69,22 +69,22 @@ public class TranscriptTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3})
-    public void writeTest_WithIndex(int index) {
+    public void addTest_WithIndex(int index) {
         Transcript transcript = constructTranscript(true);
         Bead bead = new Bead("bead");
 
-        boolean result = transcript.write(bead, index);
+        boolean result = transcript.add(bead, index);
 
         assertTrue(result);
         assertEquals("bead", transcript.read(index).getBeadName());
     }
 
     @Test
-    public void writeTest_WithIndex_OutOfRange() {
+    public void addTest_WithIndex_OutOfRange() {
         Transcript transcript = constructTranscript(true);
         Bead bead = new Bead("bead");
 
-        boolean result = transcript.write(bead, 4);
+        boolean result = transcript.add(bead, 4);
 
         assertFalse(result);
     }
@@ -94,15 +94,15 @@ public class TranscriptTest {
         Transcript transcript = constructTranscript(false);
         Bead bead = new Bead("bead");
 
-        assertFalse(transcript.write(bead));
+        assertFalse(transcript.add(bead));
     }
 
     @Test
-    public void writeTest_NoIndex() {
+    public void addTest_NoIndex() {
         Transcript transcript = constructTranscript(true);
         Bead bead = new Bead("bead");
 
-        boolean result = transcript.write(bead);
+        boolean result = transcript.add(bead);
 
         assertTrue(result);
         assertEquals("bead", transcript.read(3).getBeadName());
@@ -144,12 +144,12 @@ public class TranscriptTest {
         Transcript transcript1 = constructTranscript(false);
         Transcript transcript2 = constructTranscript(false);
 
-        transcript1.write(new Bead("bead1"));
-        transcript2.write(new Bead("bead1"));
-        transcript1.write(new Bead("bead2"));
-        transcript2.write(new Bead("bead2"));
-        transcript1.write(new Bead("bead3"));
-        transcript2.write(new Bead("bead3"));
+        transcript1.add(new Bead("bead1"));
+        transcript2.add(new Bead("bead1"));
+        transcript1.add(new Bead("bead2"));
+        transcript2.add(new Bead("bead2"));
+        transcript1.add(new Bead("bead3"));
+        transcript2.add(new Bead("bead3"));
 
         assertTrue(transcript1.isSame(transcript2));
         assertTrue(transcript2.isSame(transcript1));
@@ -170,8 +170,8 @@ public class TranscriptTest {
         Transcript transcript1 = constructTranscript(true);
         Transcript transcript2 = constructTranscript(true);
 
-        transcript1.write(new Bead("bead1"));
-        transcript2.write(new Bead("bead2"));
+        transcript1.add(new Bead("bead1"));
+        transcript2.add(new Bead("bead2"));
 
         assertEquals("bead1", transcript1.read(-1).getBeadName());
         assertEquals("bead2", transcript2.read(-1).getBeadName());

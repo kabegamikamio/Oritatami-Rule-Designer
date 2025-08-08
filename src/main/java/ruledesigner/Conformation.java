@@ -57,7 +57,7 @@ public class Conformation {
      */
     public boolean add(Bead bead, Point point) {
         if(isPlaceable(point)) {
-            this.transcript.write(bead);
+            this.transcript.add(bead);
             this.points.add(point);
             this.length++;
             return true;
@@ -197,6 +197,21 @@ public class Conformation {
     public int indexOfPoint(Point adj) {
         for (int i = 0; i < this.points.size(); i++) {
             if (this.points.get(i).isSame(adj)) {
+                return i;
+            }
+        }
+        return -1; // Not found
+    }
+
+    /**
+     * This method returns the index of the given bead in the transcript.
+     * @param beadA The bead to find in the transcript.
+     * @return  The index of the bead if found, otherwise -1.
+     */
+    public int indexOfBead(Bead beadA) {
+        for (int i = 0; i < this.transcript.getLength(); i++) {
+            Bead beadB = this.transcript.read(i);
+            if (beadB.isSame(beadA)) {
                 return i;
             }
         }
