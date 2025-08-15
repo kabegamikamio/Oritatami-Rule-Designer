@@ -83,8 +83,8 @@ public class RuleDesign {
 
             do {
                 bondingRule = constructBondingRule();
-                os = new Oritatami(3,true, bondingRule);
-                conformation = os.executeOritatami(transcript, initialConformation);
+                os = new Oritatami(transcript, initialConformation, 3, true, bondingRule);
+                conformation = os.executeOritatami();
                 if(conformation.isSame(targetConformation)) {
                     return bondingRule;
                 }

@@ -20,6 +20,12 @@ public class Point {
         this.y = y;
     }
 
+    // constructor of Point object with another Point object
+    public Point(Point p) {
+        this.x = p.getX();
+        this.y = p.getY();
+    }
+
     // return x coordinate
     public int getX() {
         return this.x;

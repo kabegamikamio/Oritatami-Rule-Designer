@@ -40,13 +40,13 @@ public class Conformation {
     // constructor of Conformation class with the given conformation
     public Conformation(Conformation conformation) {
         this.transcript = new Transcript(conformation.getTranscript());
-        this.points = new ArrayList<>(conformation.getAllPoints());
+        List<Point> newPoints = new ArrayList<>();
+        for (Point p : conformation.getAllPoints()) {
+            newPoints.add(new Point(p)); // Create a new Point object to avoid reference issues
+        }
+        this.points = newPoints;
         this.idx = conformation.idx;
         this.length = conformation.length;
-//        this.indexTable = new int[conformation.indexTable.length][];
-//        for (int i = 0; i < conformation.indexTable.length; i++) {
-//            this.indexTable[i] = conformation.indexTable[i].clone();
-//        }
     }
 
     /**
@@ -216,5 +216,22 @@ public class Conformation {
             }
         }
         return -1; // Not found
+    }
+
+    /**
+     * This method concatenates the current conformation with another conformation.
+     * @param other The other conformation to concatenate.
+     * @return  A new Conformation that is the result of concatenation.
+     */
+    public Conformation concatenate(Conformation other) {
+        Transcript newTranscript = new Transcript(this.transcript);
+        newTranscript.addAll(other.getTranscript());
+        List<Point> newPoints = new ArrayList<>(this.points);
+        newPoints.addAll(other.getAllPoints());
+        return new Conformation(newTranscript, newPoints);
+    }
+
+    public Conformation getClone() {
+        return new Conformation(new Transcript(this.transcript), new ArrayList<>(this.points));
     }
 }

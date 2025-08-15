@@ -150,4 +150,12 @@ public class Transcript {
         this.idx = 0;
         this.isWrite = isWrite;
     }
+
+    public void addAll(Transcript transcript) {
+        if (!this.isWrite) {
+            throw new UnsupportedOperationException("Cannot add to a read-only transcript.");
+        }
+        this.transcriptList.addAll(transcript.getList());
+        this.idx = this.transcriptList.size(); // Update index to the end of the new transcript
+    }
 }

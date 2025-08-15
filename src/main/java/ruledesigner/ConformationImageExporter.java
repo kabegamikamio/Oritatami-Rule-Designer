@@ -9,34 +9,6 @@ import java.util.List;
 
 public class ConformationImageExporter {
 
-    public static void main(String[] args) {
-        try {
-            Conformation conformation = new Conformation();
-            conformation.add(new Bead("A0"), new Point(0, 0));
-            conformation.add(new Bead("A1"), new Point(0, 1));
-            conformation.add(new Bead("A2"), new Point(1, 0));
-            conformation.add(new Bead("A3"), new Point(1, 1));
-
-            BondingRule bondingRule = new BondingRule();
-            bondingRule.add(new Bond(conformation.getBead(0), conformation.getBead(2)));
-            bondingRule.add(new Bond(conformation.getBead(1), conformation.getBead(3)));
-
-            Transcript transcript = new Transcript();
-            transcript.add(new Bead("A0"));
-            transcript.add(new Bead("A1"));
-            transcript.add(new Bead("A2"));
-            transcript.add(new Bead("A3"));
-
-            Conformation conformation1 = new OritatamiTemp(transcript, conformation, bondingRule).run();
-
-            ConformationImageExporter exporter = new ConformationImageExporter();
-            BufferedImage image = exporter.exportToImage(conformation1, conformation.getLength(), 10, bondingRule);
-            exporter.saveImage(image, "conformation.png");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private static final Color[] MATERIAL_COLORS = {
             new Color(244, 67, 54), new Color(33, 150, 243), new Color(76, 175, 80),
             new Color(255, 235, 59), new Color(156, 39, 176), new Color(255, 152, 0),
@@ -57,13 +29,13 @@ public class ConformationImageExporter {
 
     public BufferedImage exportToImage(Conformation conformation, int seedLength, int beadRadius, BondingRule bondingRule) {
         int spacing = beadRadius * 3;
-        int width = 400, height = 400;
+        int width = 4000, height = 400;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
 
-        drawFoldingPath(g, conformation,seedLength, beadRadius, spacing, width, height);
+        drawFoldingPath(g, conformation, seedLength, beadRadius, spacing, width, height);
         drawBonds(g, conformation, beadRadius, spacing, bondingRule, width, height);
         drawBeads(g, conformation, beadRadius, spacing, width, height);
 
@@ -76,6 +48,7 @@ public class ConformationImageExporter {
         for (int i = 1; i < conformation.getLength(); i++) {
             g.setColor(i < seedLength ? Color.GREEN : Color.BLACK);
             g.setStroke(new BasicStroke(beadRadius * 0.5f));
+            System.out.println("Drawing line from (" + conformation.getPoint(i - 1).getX() + ", " + conformation.getPoint(i - 1).getY() + ") to (" + conformation.getPoint(i).getX() + ", " + conformation.getPoint(i).getY() + ")");
             Point p1 = toTriangularLattice(conformation.getPoint(i - 1), spacing);
             Point p2 = toTriangularLattice(conformation.getPoint(i), spacing);
             g.drawLine(width / 2 + p1.getX(), height / 2 - p1.getY(), width / 2 + p2.getX(), height / 2 - p2.getY());
@@ -96,12 +69,11 @@ public class ConformationImageExporter {
             System.out.println("Adjacent:");
             for (Point adj : adjacentPoints) {
                 int idx = conformation.indexOfPoint(adj);
-                if (idx != -1 && idx > i) {
-                    System.out.println(adj.getX() + ", " + adj.getY());
+                if (idx != -1 && idx > i+1) {
                     Bead adjacentBead = conformation.getBead(idx);
+                    if (adjacentBead == null) continue;
                     Bond bond = new Bond(bead, adjacentBead);
                     if (bondingRule.ifContains(bond)) {
-                        System.out.println("Bond found: " + bead.getBeadName() + " - " + adjacentBead.getBeadName());
                         Point adjPoint = toTriangularLattice(adj, spacing);
                         Point pt = toTriangularLattice(p, spacing);
                         g.drawLine(width / 2 + pt.getX(), height / 2 - pt.getY(), width / 2 + adjPoint.getX(), height / 2 - adjPoint.getY());
@@ -115,6 +87,8 @@ public class ConformationImageExporter {
         for (int i = 0; i < conformation.getLength(); i++) {
             Point p = toTriangularLattice(conformation.getPoint(i), spacing);
             Bead bead = conformation.getBead(i);
+            if (bead == null) continue;
+
             int x = width / 2 + p.getX();
             int y = height / 2 - p.getY();
 
