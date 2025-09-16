@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FileInterface {
 //    public static void main(String[] args) {
@@ -30,13 +28,18 @@ public class FileInterface {
 //        }
 //    }
 
-    public readJsonIntoOritatami(String filePath) {
+    /**
+     * Reads a JSON file and constructs an OritatamiFromJson object.
+     * @param filePath the path to the JSON file
+     * @return an OritatamiFromJson object containing the data from the JSON file
+     */
+    public OritatamiFromJson readJson(String filePath) {
         File file = new File(filePath);
         ObjectMapper mapper = new ObjectMapper();
         OritatamiFromJson oritatamiFromJson;
 
         try {
-            oritatamiFromJson = mapper.readValue(file, OritatamiJson.class);
+            oritatamiFromJson = mapper.readValue(file, OritatamiFromJson.class);
             System.out.println("Name: " + oritatamiFromJson.name);
             System.out.println("Delay: " + oritatamiFromJson.delay);
             System.out.println("Period Count: " + oritatamiFromJson.periodCount);
@@ -48,6 +51,8 @@ public class FileInterface {
             e.printStackTrace();
             oritatamiFromJson = null;
         }
+
+        return oritatamiFromJson;
     }
 
     // Construct the transcript from the transcript file
@@ -56,11 +61,16 @@ public class FileInterface {
             File file = new File(fileName);
             FileReader fileReader = new FileReader(file);
         } catch(FileNotFoundException e) {
-            System.out.println(e);
+            e.printStackTrace();
+            return null;
         }
         Transcript transcript = new Transcript();
 
-        // Transcript constructiong process
+        // Transcript construction process
+        // 1. Print compactTranscriptPrefix, if exists
+        // 2. Print compactTranscriptPeriod for defined times by periodCount
+        // 2.1. Look for 'declare' fields and store them as arrays of beads
+        // 2.2. 
 
         return transcript;
     }

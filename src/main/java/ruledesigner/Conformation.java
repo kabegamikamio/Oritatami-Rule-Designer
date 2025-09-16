@@ -234,4 +234,38 @@ public class Conformation {
     public Conformation getClone() {
         return new Conformation(new Transcript(this.transcript), new ArrayList<>(this.points));
     }
+
+    public int perfectScore(Conformation compareConf) {
+        int score = 0;
+
+        int length = this.getLength();
+        if (length != compareConf.getLength()) {
+            return 0;
+        }
+
+        // obtain points one by one, and compare
+        for(int i=0; i<length; i++) {
+            // obtain the points in the same index
+            Point point1 = this.getPoint(i);
+            Point point2 = compareConf.getPoint(i);
+
+            // if the points are not the same, two conformations are different
+            if(!point1.isSame(point2)) {
+                return score;
+            }
+
+            // obtain the beads in the same index
+            Bead bead1 = this.getBead(i);
+            Bead bead2 = compareConf.getBead(i);
+
+            // if the beads are not the same, two conformations are different
+            if(!bead1.isSame(bead2)) {
+                return score;
+            }
+
+            score++;
+        }
+
+        return score;
+    }
 }
