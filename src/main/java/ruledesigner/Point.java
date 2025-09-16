@@ -1,0 +1,126 @@
+package ruledesigner;
+
+import java.util.List;
+
+// definition of a point on the triangular grid
+public class Point {
+    private int x, y;
+    final public static Point[] adjacentCord = {new Point(0, 1), new Point(1, 0), new Point(1, -1),
+            new Point(0, -1), new Point(-1, 0), new Point(-1, 1)};
+    final public static String[] adjacentDirection = {"NE", "E", "SE", "SW", "W", "NW"};
+
+    public Point() {
+        this.x = 0;
+        this.y = 0;
+    }
+
+    // constructor of Point object
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // constructor of Point object with another Point object
+    public Point(Point p) {
+        this.x = p.getX();
+        this.y = p.getY();
+    }
+
+    // return x coordinate
+    public int getX() {
+        return this.x;
+    }
+
+    // return y coordinate
+    public int getY() {
+        return this.y;
+    }
+
+    // set x coordinate
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    // set y coordinate
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    // set both x and y coordinates
+    public void setAll(int x, int y) {
+        this.setX(x);
+        this.setY(y);
+    }
+
+    // determine if the given coordinate is the same
+    public boolean isSame(Point p) {
+        return this.x == p.getX() && this.y == p.getY();
+    }
+
+    // determine if the given coordinate is adjacent
+    public boolean isAdjacent(Point a) {
+        int difX = this.x - a.getX();
+        int difY = this.y - a.getY();
+        Point difPoint = new Point(difX, difY);
+
+        return difPoint.isIn(adjacentCord);
+    }
+
+    // determine if the given coordinate is in an array of coordinates
+    public boolean isIn(Point[] pointArray) {
+        for(Point p : pointArray) {
+            if(this.isSame(p)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method returns the adjacent point of instance's point.
+     * It determines the direction of extension by refering the static array of points of adjacentCord
+     * with the parameter of index;
+     * @param index The index to refer the adjacent coordination.
+     * @return  An adjacent point.
+     */
+    public Point getAdjacentOf(int index) {
+        int adjX = this.x + adjacentCord[index].getX();
+        int adjY = this.y + adjacentCord[index].getY();
+
+        return new Point(adjX, adjY);
+    }
+
+    /**
+     * This method returns the adjacent point of instance's point.
+     * It determines the direction of extension by refering the static array of points of adjacentCord
+     * with the parameter of direction;
+     * @param direction The direction to refer the adjacent coordination.
+     * @return  An adjacent point.
+     */
+    public Point getAdjacentOf(String direction) {
+        int adjX = this.x + adjacentCord[getIndexOfDirection(direction)].getX();
+        int adjY = this.y + adjacentCord[getIndexOfDirection(direction)].getY();
+
+        return new Point(adjX, adjY);
+    }
+
+    // return the string representation of the point
+    private int getIndexOfDirection(String direction) {
+        for(int i = 0; i < adjacentDirection.length; i++) {
+            if(adjacentDirection[i].equals(direction)) {
+                return i;
+            }
+        }
+        return -1; // not found
+    }
+
+    // return the string representation of the point
+    public List<Point> getAdjacentPoints() {
+        List<Point> adjacentPoints = new java.util.ArrayList<>();
+        for (Point p : adjacentCord) {
+            Point adjPoint = new Point(this.x + p.getX(), this.y + p.getY());
+            adjacentPoints.add(adjPoint);
+        }
+        return adjacentPoints;
+    }
+}

@@ -1,33 +1,46 @@
+package ruledesigner;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // class of bonding rules
 // construct and hold a list of bonds
-class BondingRule {
+public class BondingRule {
     private List<Bond> rule;
 
     BondingRule() {
-        this.rule = new ArrayList<Bond>();
+        this.rule = new ArrayList<>();
     }
 
     // add new bonding rule to the current rule
     public void add(Bond bond) {
-        this.rule.add(bond);
+        if(!this.ifContains(bond)) {
+            this.rule.add(bond);
+        }
     }
 
     // determine if the given pair of beads is contained in the bonding rule
     public boolean ifContains(Bond bond) {
-        return this.rule.contains(bond);
+        for (Bond b : this.rule) {
+            if (b.isSame(bond)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // delete the designated bond from the rule
     public boolean delete(Bond bond) {
         if(this.rule.contains(bond)) {
-            int i = this.rule.indexOf(bond);
-            this.rule.remove(i);
+            this.rule.remove(bond);
             return true;
         } else {
             return false;
         }
+    }
+
+    // delete all the bonds in the bonding rule
+    public List<Bond> getBondList() {
+        return this.rule;
     }
 }
